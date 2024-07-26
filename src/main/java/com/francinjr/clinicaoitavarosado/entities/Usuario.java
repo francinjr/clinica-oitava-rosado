@@ -9,7 +9,8 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-public class User {
+@Entity(name = "usuarios")
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

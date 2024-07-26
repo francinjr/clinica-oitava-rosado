@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "agendamentos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
+@Entity(name = "agendamentos")
 public class AgendamentoMedico {
 
     @Id

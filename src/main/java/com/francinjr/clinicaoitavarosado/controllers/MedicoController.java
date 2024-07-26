@@ -20,21 +20,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.francinjr.clinicaoitavarosado.dtos.paciente.CreatePacienteDto;
-import com.francinjr.clinicaoitavarosado.dtos.paciente.PacienteDto;
-import com.francinjr.clinicaoitavarosado.services.PacienteService;
+import com.francinjr.clinicaoitavarosado.dtos.medico.CreateMedicoDto;
+import com.francinjr.clinicaoitavarosado.dtos.medico.MedicoDto;
+import com.francinjr.clinicaoitavarosado.services.MedicoService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/pacientes/v1")
-public class PacienteController {
+@RequestMapping("/api/medicos/v1")
+public class MedicoController {
 
 	@Autowired
-	PacienteService pacienteService;
+	MedicoService medicoService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PagedModel<EntityModel<PacienteDto>>> findAll(
+	public ResponseEntity<PagedModel<EntityModel<MedicoDto>>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "limit", defaultValue = "10") Integer size,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction
@@ -44,34 +44,34 @@ public class PacienteController {
 		
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "nomeCompleto"));
 		
-		return ResponseEntity.ok(pacienteService.findAll(pageable));
+		return ResponseEntity.ok(medicoService.findAll(pageable));
 	}
 
 
-	@GetMapping(value = "/{pacienteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PacienteDto> findById(@PathVariable Long pacienteId) {
-		PacienteDto pacienteDto = pacienteService.findById(pacienteId);
-		return new ResponseEntity<PacienteDto>(pacienteDto, HttpStatus.OK);
+	@GetMapping(value = "/{medicoId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MedicoDto> findById(@PathVariable Long medicoId) {
+		MedicoDto medicoDto = medicoService.findById(medicoId);
+		return new ResponseEntity<MedicoDto>(medicoDto, HttpStatus.OK);
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PacienteDto> create(@Valid @RequestBody CreatePacienteDto pacienteDto) {
-		PacienteDto pacienteCriado = pacienteService.create(pacienteDto);
-		return new ResponseEntity<PacienteDto>(pacienteCriado, HttpStatus.CREATED);
+	public ResponseEntity<MedicoDto> create(@Valid @RequestBody CreateMedicoDto pacienteDto) {
+		MedicoDto pacienteCriado = medicoService.create(pacienteDto);
+		return new ResponseEntity<MedicoDto>(pacienteCriado, HttpStatus.CREATED);
 	}
 
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PacienteDto> update(@Valid @RequestBody PacienteDto pacienteDto) {
-		PacienteDto pacienteAtualizado = pacienteService.update(pacienteDto);
-		return new ResponseEntity<PacienteDto>(pacienteAtualizado, HttpStatus.OK);
+	public ResponseEntity<MedicoDto> update(@Valid @RequestBody MedicoDto pacienteDto) {
+		MedicoDto pacienteAtualizado = medicoService.update(pacienteDto);
+		return new ResponseEntity<MedicoDto>(pacienteAtualizado, HttpStatus.OK);
 	}
 	
 	
 	@DeleteMapping(value = "/{pacienteId}")
 	public ResponseEntity<Void> delete(@PathVariable Long pacienteId) {
-		pacienteService.delete(pacienteId);
+		medicoService.delete(pacienteId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "medicos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
+@Entity(name = "medicos")
 public class Medico {
 	
     @Id

@@ -13,12 +13,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "pacientes")
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @ToString
+@Entity(name = "pacientes")
 public class Paciente {
 	
     @Id
