@@ -36,13 +36,13 @@ public class AgendamentoMedico {
     private Paciente paciente;
 
     @Column(nullable = false)
-    private String motivoDaConsulta;
+    private String motivoConsulta;
 
     @Column(nullable = false)
-    private LocalDate dataDaConsulta;
+    private LocalDate dataConsulta;
 
     @Column(nullable = false)
-    private LocalDate horaDaConsulta;
+    private LocalDate horaConsulta;
 
     @Column(nullable = false)
     private String local;
