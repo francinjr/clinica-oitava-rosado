@@ -7,5 +7,6 @@ import com.francinjr.clinicaoitavarosado.entities.Medico;
 
 @Repository
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
-	Medico findByCpf(String cpf);
+	//Medico findByCpf(String cpf);
+	Medico findByCpfOrTelefoneOrEmail(String cpf, String telefone, String email);
 }

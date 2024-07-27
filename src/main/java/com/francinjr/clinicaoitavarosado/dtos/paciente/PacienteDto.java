@@ -27,33 +27,22 @@ public class PacienteDto extends RepresentationModel<PacienteDto> implements Ser
 
 	@JsonProperty("id")
 	private Long key;
-	
     private String nomeCompleto;
-	
-    private String sexo;
-    
-    private LocalDate dataNascimento;
-    
     private String cpf;
-    
-    private String rg;
-    
-    private String orgaoEmissor;
-
-    private String logradouro;
-
-    private String bairro;
-
-    private String cidade;
-
-    private String uf;
-
-    private String cep;
-
     private String telefone;
-    
-
-    private String email;
-
+    private String sexo;
+    private LocalDate dataNascimento;
     private String observacoes;
+    
+    
+    /*private String rg;
+    private String orgaoEmissor;
+    private String logradouro;
+    private String bairro;
+    private String cidade;
+    private String uf;
+    private String cep;
+    private String email;*/
+
+
 }

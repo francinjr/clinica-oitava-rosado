@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.francinjr.clinicaoitavarosado.dtos.paciente.CreatePacienteDto;
 import com.francinjr.clinicaoitavarosado.dtos.paciente.PacienteDto;
+import com.francinjr.clinicaoitavarosado.dtos.paciente.UpdatePacienteDto;
 import com.francinjr.clinicaoitavarosado.services.PacienteService;
 
 import jakarta.validation.Valid;
@@ -63,7 +64,7 @@ public class PacienteController {
 
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PacienteDto> update(@Valid @RequestBody PacienteDto pacienteDto) {
+	public ResponseEntity<PacienteDto> update(@Valid @RequestBody UpdatePacienteDto pacienteDto) {
 		PacienteDto pacienteAtualizado = pacienteService.update(pacienteDto);
 		return new ResponseEntity<PacienteDto>(pacienteAtualizado, HttpStatus.OK);
 	}

@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 
+import com.francinjr.clinicaoitavarosado.dtos.medico.MedicoDto;
 import com.francinjr.clinicaoitavarosado.dtos.paciente.PacienteDto;
+import com.francinjr.clinicaoitavarosado.entities.Medico;
 import com.francinjr.clinicaoitavarosado.entities.Paciente;
 
 public class Mapper {
@@ -21,6 +23,16 @@ public class Mapper {
         		PacienteDto.class,
             Paciente.class)
             .addMapping(PacienteDto::getKey, Paciente::setId);
+        
+        
+        mapper.createTypeMap(
+                Medico.class,
+                MedicoDto.class)
+            .addMapping(Medico::getId, MedicoDto::setKey);
+        mapper.createTypeMap(
+        		MedicoDto.class,
+        		Medico.class)
+            .addMapping(MedicoDto::getKey, Medico::setId);
 	}
 	
 	public static <O, D> D parseObject(O origin, Class<D> destination) {

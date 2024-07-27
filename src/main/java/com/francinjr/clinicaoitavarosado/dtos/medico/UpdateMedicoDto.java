@@ -11,8 +11,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class CreateMedicoDto implements BaseMedicoDto {
+public class UpdateMedicoDto implements BaseMedicoDto {
 	
+	private Long id;
     private String nomeCompleto;
     private String conselhoMedico;
 

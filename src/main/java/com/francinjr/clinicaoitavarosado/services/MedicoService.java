@@ -3,6 +3,9 @@ package com.francinjr.clinicaoitavarosado.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -10,11 +13,14 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
 
 import com.francinjr.clinicaoitavarosado.controllers.MedicoController;
 import com.francinjr.clinicaoitavarosado.controllers.PacienteController;
+import com.francinjr.clinicaoitavarosado.dtos.medico.BaseMedicoDto;
 import com.francinjr.clinicaoitavarosado.dtos.medico.CreateMedicoDto;
 import com.francinjr.clinicaoitavarosado.dtos.medico.MedicoDto;
+import com.francinjr.clinicaoitavarosado.dtos.medico.UpdateMedicoDto;
 import com.francinjr.clinicaoitavarosado.entities.Medico;
 import com.francinjr.clinicaoitavarosado.exceptions.ResourceAlreadyExistsException;
 import com.francinjr.clinicaoitavarosado.exceptions.ResourceNotFoundException;
@@ -62,40 +68,38 @@ public class MedicoService {
 	}
 
 	
-	public MedicoDto create(CreateMedicoDto medico) {
-		Medico medicoEncontrado = medicoRepository.findByCpf(medico.getCpf());
-
-		if(medicoEncontrado != null) {
-			throw new ResourceAlreadyExistsException("Já existe um médico cadastrado com "
-					+ "o CPF: " + medico.getCpf());
+	public MedicoDto create(CreateMedicoDto medico) throws ResourceAlreadyExistsException {
+		
+		List<FieldError> camposInvalidos = validateDoctorUniqueFields(medico);
+		if(camposInvalidos != null) {
+			throw new ResourceAlreadyExistsException("Há campos que são únicos já cadastrados",
+					camposInvalidos);
 		}
 		
 		Medico entity = Mapper.parseObject(medico, Medico.class);
 
 		MedicoDto dto = Mapper.parseObject(medicoRepository.save(entity), MedicoDto.class);
-		dto.add(linkTo(methodOn(PacienteController.class).findById(dto.getKey())).withSelfRel());
+		dto.add(linkTo(methodOn(MedicoController.class).findById(dto.getKey())).withSelfRel());
 		return dto;
 	}
 
 	
-	public MedicoDto update(MedicoDto medico) {
-		Medico entity = medicoRepository.findById(medico.getKey())
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi possível atualizar, "
-						+ "não existe um médico com id " + medico.getKey()));
+	public MedicoDto update(UpdateMedicoDto medico) throws ResourceAlreadyExistsException {
+		Medico medicoEncontrado = medicoRepository.findById(medico.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Recurso com id " + medico.getId() 
+						+ " não foi encontrado"));
 		
-		
-		Medico medicoEncontrado = medicoRepository.findByCpf(medico.getCpf());
 
-		// Impede que alguem atualize um CPF para um que pertence a outro médico
-		if(medicoEncontrado != null && (medico.getCpf().equals(medicoEncontrado.getCpf()) 
-				&& (!medico.getKey().equals(medicoEncontrado.getId())))) {
-			throw new ResourceAlreadyExistsException("Não foi possível atualizar, já existe "
-					+ "um médico cadastrado com o CPF: " + medico.getCpf());
+		List<FieldError> camposInvalidos = validateDoctorUniqueFields(medico);
+		if(camposInvalidos != null) {
+			// Impede que um usuário atualize para valores de campos únicos pertencentes a outro
+			// médico
+			if(!medico.getId().equals(medicoEncontrado.getId())) {
+				throw new ResourceAlreadyExistsException("Há campos inválidos", camposInvalidos);
+			}
 		}
 		
-
-
-		entity = Mapper.parseObject(medico, Medico.class);
+		Medico entity = Mapper.parseObject(medico, Medico.class);
 
 		MedicoDto dto = Mapper.parseObject(medicoRepository.save(entity), MedicoDto.class);
 		dto.add(linkTo(methodOn(PacienteController.class).findById(dto.getKey())).withSelfRel());
@@ -109,5 +113,42 @@ public class MedicoService {
 						+ "já existe um médico com id " + medicoId));
 
 		medicoRepository.delete(entity);
+	}
+	
+	
+	private List<FieldError> validateDoctorUniqueFields(BaseMedicoDto medico) 
+			throws ResourceAlreadyExistsException {
+		Medico medicoEncontrado = medicoRepository.findByCpfOrTelefoneOrEmail(
+				medico.getCpf(), medico.getTelefone(), medico.getEmail());
+		
+		
+		if(medicoEncontrado != null) {
+			boolean haCampoInvalido = false;
+			
+			List<FieldError> camposInvalidos = new ArrayList<>();
+			
+			if(medico.getCpf().equals(medicoEncontrado.getCpf())) {
+				camposInvalidos.add(new FieldError("medico", "cpf", "Já existe um médico"
+						+ " cadastrado com o CPF: " + medico.getCpf()));
+				haCampoInvalido = true;
+			}
+			
+			if(medico.getTelefone().equals(medicoEncontrado.getTelefone())) {
+				camposInvalidos.add(new FieldError("medico", "telefone", "Já existe um médico"
+						+ " cadastrado com o Telefone: " + medico.getTelefone()));
+				haCampoInvalido = true;
+			}
+			
+			if(medico.getEmail().equals(medicoEncontrado.getEmail())) {
+				camposInvalidos.add(new FieldError("medico", "email", "Já existe um médico"
+						+ " cadastrado com o Email: " + medico.getEmail()));
+				haCampoInvalido = true;
+			}
+			
+			if(haCampoInvalido) {
+				return camposInvalidos;
+			}
+		}
+		return null;
 	}
 }

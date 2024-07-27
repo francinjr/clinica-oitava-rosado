@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.francinjr.clinicaoitavarosado.dtos.medico.CreateMedicoDto;
 import com.francinjr.clinicaoitavarosado.dtos.medico.MedicoDto;
+import com.francinjr.clinicaoitavarosado.dtos.medico.UpdateMedicoDto;
 import com.francinjr.clinicaoitavarosado.services.MedicoService;
 
 import jakarta.validation.Valid;
@@ -56,22 +57,22 @@ public class MedicoController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MedicoDto> create(@Valid @RequestBody CreateMedicoDto pacienteDto) {
-		MedicoDto pacienteCriado = medicoService.create(pacienteDto);
-		return new ResponseEntity<MedicoDto>(pacienteCriado, HttpStatus.CREATED);
+	public ResponseEntity<MedicoDto> create(@Valid @RequestBody CreateMedicoDto medicoDto) {
+		MedicoDto medicoCriado = medicoService.create(medicoDto);
+		return new ResponseEntity<MedicoDto>(medicoCriado, HttpStatus.CREATED);
 	}
 
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MedicoDto> update(@Valid @RequestBody MedicoDto pacienteDto) {
-		MedicoDto pacienteAtualizado = medicoService.update(pacienteDto);
-		return new ResponseEntity<MedicoDto>(pacienteAtualizado, HttpStatus.OK);
+	public ResponseEntity<MedicoDto> update(@Valid @RequestBody UpdateMedicoDto medicoDto) {
+		MedicoDto medicoAtualizado = medicoService.update(medicoDto);
+		return new ResponseEntity<MedicoDto>(medicoAtualizado, HttpStatus.OK);
 	}
 	
 	
-	@DeleteMapping(value = "/{pacienteId}")
-	public ResponseEntity<Void> delete(@PathVariable Long pacienteId) {
-		medicoService.delete(pacienteId);
+	@DeleteMapping(value = "/{medicoId}")
+	public ResponseEntity<Void> delete(@PathVariable Long medicoId) {
+		medicoService.delete(medicoId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
