@@ -7,7 +7,9 @@ import com.francinjr.clinicaoitavarosado.entities.Paciente;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
-	Paciente findByCpf(String cpf);
+	//Paciente findByCpf(String cpf);
 	
-	Paciente findByCpfOrRgOrTelefoneOrEmail(String cpf, String rg, String telefone, String email);
+	//Paciente findByCpfOrRgOrTelefoneOrEmail(String cpf, String rg, String telefone, String email);
+	
+	boolean existsByRg(String rg);
 }

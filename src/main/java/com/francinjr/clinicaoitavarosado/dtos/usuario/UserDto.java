@@ -1,4 +1,4 @@
-package com.francinjr.clinicaoitavarosado.dtos.user;
+package com.francinjr.clinicaoitavarosado.dtos.usuario;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class CreateUsuarioDto {
-    private String nome;
-    private String email;
-    private String senha;
+public class UserDto {
+	private Long id;
+	private String userName;
+	private String email;
 }

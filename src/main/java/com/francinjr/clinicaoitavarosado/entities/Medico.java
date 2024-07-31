@@ -1,10 +1,13 @@
 package com.francinjr.clinicaoitavarosado.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +21,14 @@ import lombok.ToString;
 @ToString
 @Entity(name = "medicos")
 public class Medico {
-	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-    @Column(nullable = false)
-    private String nomeCompleto;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+    private Pessoa pessoa;
+    
     @Column(nullable = false)
     private String conselhoMedico;
 
@@ -36,30 +39,4 @@ public class Medico {
     private Integer numeroConselho;
     
     private String cbo;
-    
-    @Column(length = 11, nullable = false, unique = true)
-    private String cpf;
-    
-    @Column(nullable = false)
-    private String logradouro;
-
-    @Column(nullable = false)
-    private String bairro;
-
-    @Column(nullable = false)
-    private String cidade;
-
-    @Column(nullable = false)
-    private String uf;
-
-    @Column(nullable = false)
-    private String cep;
-    
-    @Column(nullable = false, unique = true)
-    private String telefone;
-    
-    @Column(nullable = false, unique = true)
-    private String email;
-
-
 }

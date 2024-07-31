@@ -43,7 +43,7 @@ public class PacienteController {
 		
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		
-		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "nomeCompleto"));
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "pessoa.nomeCompleto"));
 		
 		return ResponseEntity.ok(pacienteService.findAll(pageable));
 	}

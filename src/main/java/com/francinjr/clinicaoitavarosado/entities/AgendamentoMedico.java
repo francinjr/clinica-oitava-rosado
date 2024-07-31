@@ -1,6 +1,7 @@
 package com.francinjr.clinicaoitavarosado.entities;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,8 +42,12 @@ public class AgendamentoMedico {
     @Column(nullable = false)
     private LocalDate dataConsulta;
 
+
     @Column(nullable = false)
-    private LocalDate horaConsulta;
+    private LocalTime inicio;
+    
+    @Column(nullable = false)
+    private LocalTime fim;
 
     @Column(nullable = false)
     private String local;

@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.validation.FieldError;
 
 
-public class ResourceAlreadyExistsException extends RuntimeException {
+public class UniqueConstraintViolationException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     
     private List<FieldError> camposInvalidos;
     private String exceptionMessage;
     
-    public ResourceAlreadyExistsException(String exceptionMessage, 
+    public UniqueConstraintViolationException(String exceptionMessage, 
     		List<FieldError> camposInvalidos) {
     	this.exceptionMessage = exceptionMessage;
     	this.camposInvalidos = camposInvalidos;
@@ -31,9 +31,5 @@ public class ResourceAlreadyExistsException extends RuntimeException {
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-    
-    
-    
-    
+	}  
 }

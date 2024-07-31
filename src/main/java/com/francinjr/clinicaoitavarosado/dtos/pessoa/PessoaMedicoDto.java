@@ -1,4 +1,4 @@
-package com.francinjr.clinicaoitavarosado.dtos.user;
+package com.francinjr.clinicaoitavarosado.dtos.pessoa;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +11,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class UsuarioDto {
-    private Long id;
-    private String nome;
-    private String email;
-    private String senha;
+public class PessoaMedicoDto {
+	private Long id;
+    private String nomeCompleto;
+    private String cpf;
 }
+
